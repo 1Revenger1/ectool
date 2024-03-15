@@ -1,3 +1,9 @@
 [submodule "extern/FrameworkWindowsUtils"]
 	path = extern/FrameworkWindowsUtils
 	url = https://github.com/DHowett/FrameworkWindowsUtils
+[submodule "extern/CrosEC"]
+	path = extern/CrosEC
+	url = git@github.com:1Revenger1/CrosEC.git
+[submodule "extern/CrosECOSX"]
+	path = extern/CrosECOSX
+	url = git@github.com:1Revenger1/CrosEC.git

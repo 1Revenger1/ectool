@@ -14,7 +14,9 @@
 #include "ec_commands.h"
 #include "misc_util.h"
 
-#ifndef _WIN32
+#ifdef __APPLE__
+#include "darwin_shim.h"
+#elif !defined(_WIN32) && !defined(__APPLE__)
 #include "cros_ec_dev.h"
 #endif
 

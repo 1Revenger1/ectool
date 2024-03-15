@@ -34,8 +34,16 @@
 #include "panic.h"
 #include "usb_pd.h"
 
-#ifndef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
+#define _NOT_LINUX
+#endif
+
+#ifndef _NOT_LINUX
 #include "cros_ec_dev.h"
+#endif
+
+#ifdef __APPLE__
+#include "darwin_shim.h"
 #endif
 
 /* Maximum flash size (16 MB, conservative) */
@@ -2989,7 +2997,7 @@ int cmd_pd_get_amode(int argc, char *argv[])
 }
 
 /* The I/O asm funcs exist only on x86. */
-#if (defined(__i386__) || defined(__x86_64__)) && !defined(_WIN32)
+#if (defined(__i386__) || defined(__x86_64__)) && !defined(_NOT_LINUX)
 #include <sys/io.h>
 
 int cmd_serial_test(int argc, char *argv[])
@@ -3120,7 +3128,7 @@ static void sig_quit_handler(int sig)
 
 int cmd_stress_test(int argc, char *argv[])
 {
-#ifdef _WIN32
+#ifdef _NOT_LINUX
 	return 0;
 #else
 	int i;
@@ -11212,7 +11220,7 @@ int main(int argc, char *argv[])
 			}
 			break;
 		case OPT_DEVICE:
-#ifndef _WIN32
+#ifndef _NOT_LINUX
 			if (parse_vidpid(optarg, &vid, &pid)) {
 				interfaces = COMM_USB;
 			} else
@@ -11287,7 +11295,7 @@ int main(int argc, char *argv[])
 			exit(1);
 		}
 		if (interfaces == COMM_USB) {
-#ifndef _WIN32
+#ifndef _NOT_LINUX
 			if (comm_init_usb(vid, pid)) {
 				fprintf(stderr, "Couldn't find EC on USB.\n");
 				goto out;
@@ -11319,7 +11327,7 @@ int main(int argc, char *argv[])
 out:
 	release_gec_lock();
 
-#ifndef _WIN32
+#ifndef _NOT_LINUX
 	if (interfaces == COMM_USB)
 		comm_usb_exit();
 #endif

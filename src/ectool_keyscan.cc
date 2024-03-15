@@ -10,13 +10,18 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/stat.h>
+
+#ifdef __APPLE__
+#include <machine/endian.h>
+#else
 #include <endian.h>
+#endif
 
 #include "comm-host.h"
 #include "keyboard_config.h"
 #include "ectool.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__APPLE__)
 enum {
 	/* Alloc this many more scans when needed */
 	KEYSCAN_ALLOC_STEP = 64,

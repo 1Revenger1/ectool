@@ -257,7 +257,7 @@ void host_packet_receive(struct host_packet *pkt);
  * Return: handler for the command, or NULL if not found.
  */
 #ifndef CONFIG_ZEPHYR
-__error("This function should only be called from Zephyr OS code")
+// __error("This function should only be called from Zephyr OS code")
 #endif
 	struct host_command *zephyr_find_host_command(int command);
 

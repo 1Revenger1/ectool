@@ -29,17 +29,15 @@ target_sources(ectool PRIVATE
 	lock/gec_lock.cc
 )
 
-if(NOT WIN32)
+if(APPLE)
 	target_sources(ectool PRIVATE
-		comm-dev.cc
-		comm-i2c.cc
-		comm-lpc.cc
-		comm-servo-spi.cc
-		comm-usb.cc
-
+		comm-darwin.cc
 		lock/file_lock.cc
 	)
-else()
+
+	find_library(IOKIT_LIBRARY IOKit)
+	target_link_libraries(ectool PRIVATE ${IOKIT_LIBRARY})
+elseif(WIN32)
 	target_compile_definitions(ectool PRIVATE
 		_CRT_SECURE_NO_WARNINGS
 	)
@@ -68,6 +66,17 @@ else()
 	target_include_directories(ectool PRIVATE
 		../include/win32
 	)
+else()
+	target_sources(ectool PRIVATE
+		comm-dev.cc
+		comm-i2c.cc
+		comm-lpc.cc
+		comm-servo-spi.cc
+		comm-usb.cc
+
+		lock/file_lock.cc
+	)
+	
+	target_link_libraries(ectool ${libusb_LIBRARIES} ${libftdi1_LIBRARIES})
 endif()
 
-target_link_libraries(ectool ${libusb_LIBRARIES} ${libftdi1_LIBRARIES})

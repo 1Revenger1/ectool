@@ -9,7 +9,9 @@ project(ECTool
 	DESCRIPTION "ChromeOS EC Tool"
 	LANGUAGES CXX)
 
-if(NOT WIN32)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+if(NOT WIN32 AND NOT DARWIN)
 	find_package(PkgConfig REQUIRED)
 	pkg_check_modules(libusb REQUIRED libusb-1.0)
 	pkg_check_modules(libftdi1 REQUIRED libftdi1)

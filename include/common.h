@@ -381,7 +381,8 @@ enum ec_error_list {
 #ifdef TEST_BUILD
 #define __test_only
 #else
-#define __test_only __error("This function should only be used by tests")
+// #define __test_only __error("This function should only be used by tests")
+#define __test_only
 #endif
 
 /*
@@ -436,7 +437,11 @@ enum ec_error_list {
  * errors. :(
  */
 #ifdef __clang__
+#if __APPLE__
+// #define __error(msg) __attribute__((section("DATA,/DISCARD/")))
+#else
 #define __error(msg) __attribute__((section("/DISCARD/")))
+#endif
 #else
 #define __error(msg) __attribute__((error(msg)))
 #endif

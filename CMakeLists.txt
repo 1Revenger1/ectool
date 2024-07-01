@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
 	cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
@@ -11,7 +11,11 @@ project(ECTool
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-if(NOT WIN32 AND NOT DARWIN)
+if (APPLE)
+	set(CMAKE_OSX_ARCHITECTURES "x86_64")
+endif()
+
+if(NOT WIN32 AND NOT APPLE)
 	find_package(PkgConfig REQUIRED)
 	pkg_check_modules(libusb REQUIRED libusb-1.0)
 	pkg_check_modules(libftdi1 REQUIRED libftdi1)

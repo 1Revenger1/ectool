@@ -10,7 +10,7 @@
 #include <IOKit/IOKitLib.h>
 #include <mach/mach_error.h>
 #include <iostream>
-#include "../extern/CrosECOSX/Include/CrosECShared.h"
+#include "CrosECShared.h"
 
 static io_connect_t servicePort;
 

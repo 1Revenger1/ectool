@@ -1,7 +1,7 @@
 add_executable(ectool)
 
 target_include_directories(ectool PRIVATE
-	../include
+	${PROJECT_SOURCE_DIR}/include
 	${libusb_INCLUDE_DIRS}
 )
 
@@ -30,6 +30,11 @@ target_sources(ectool PRIVATE
 )
 
 if(APPLE)
+
+	target_include_directories(ectool PRIVATE
+	    ${PROJECT_SOURCE_DIR}/extern/CrosECOSX/Include
+	)
+
 	target_sources(ectool PRIVATE
 		comm-darwin.cc
 		lock/file_lock.cc
